@@ -89,26 +89,26 @@ IIS Crypto Help
 The following are the switches for the command line version of IIS Crypto. All parameters are optional.
 
 
-Switch		Option			Description
-/backup		<filename>		Specify a file to backup the current registry settings too.
+Switch	Option			Description
+/backup	<filename>		Specify a file to backup the current registry settings too.
 
 /template	default			This template restores the server to the default settings.
 
-best		This template sets your server to use the best practices for TLS. It aims to be compatible with as many browsers as possible while disabling weak protocols and
+best	This template sets your server to use the best practices for TLS. It aims to be compatible with as many browsers as possible while disabling weak protocols and
 cipher suites.
 
-pci32		This template is used to make your server PCI 3.2 compliant. It will disable TLS 1.0 and 1.1 which may break client connections to your website. Please make 
-			sure that RDP will continue to function as Windows 2008 R2 requires an update. See our FAQ for more information.
+pci32	This template is used to make your server PCI 3.2 compliant. It will disable TLS 1.0 and 1.1 which may break client connections to your website. Please make 
+		sure that RDP will continue to function as Windows 2008 R2 requires an update. See our FAQ for more information.
 
-strict		This template sets your server to use the strictest settings possible. It will disable TLS 1.0 and 1.1 and all non forward secrecy cipher suites which may break
-			client connections to your website. Please make sure that RDP will continue to function as Windows 2008 R2 requires an update. See our FAQ for more information.
+strict	This template sets your server to use the strictest settings possible. It will disable TLS 1.0 and 1.1 and all non forward secrecy cipher suites which may break
+		client connections to your website. Please make sure that RDP will continue to function as Windows 2008 R2 requires an update. See our FAQ for more information.
 
-fips140		This template makes your server FIPS 140-2 compliant. It is similar to the Best Practices template, however, it is not as secure as Best Practices because some
-			of the weaker cipher suites are enabled.
+fips140	This template makes your server FIPS 140-2 compliant. It is similar to the Best Practices template, however, it is not as secure as Best Practices because some
+		of the weaker cipher suites are enabled.
 
-			<filename>	Specify the filename of a template to use.
+<filename>	Specify the filename of a template to use.
 
-/reboot		Reboot the server after a template is applied.
+/reboot	Reboot the server after a template is applied.
 
 
 EXAMPLE.
