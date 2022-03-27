@@ -1,3 +1,6 @@
+#Requires -RunAsAdministrator
+#requires
+
 function Set-IISCrypto {
 
 	<#
@@ -7,22 +10,25 @@ function Set-IISCrypto {
 	.DESCRIPTION
 		Set-IISCrypto - Configure your server to use a strong cryptographic algorithm. This tool is a wrapper for the IISCryptoCli.exe tool which is a free tool that gives administrators the ability to enable or disable protocols, ciphers, hashes and key exchange algorithms on Windows Server 2008, 2012, 2016 and 2019. It also lets you reorder SSL/TLS cipher suites offered by IIS, change advanced settings, implement Best Practices and import custom templates. The GUI available on the Nartac Software site can be used to create a custom template that can be imported with this tool.
 
-	.PARAMETER ComputerName
-		This parameter accepts the Name of the computer you would like to connect to.
-		Supports IP/Name/FQDN
-	
-		backup
-		template
-		customtemplate
-		filename
-		reboot
+	.PARAMETER backup
+
+
+	.PARAMETER template
+
+
+	.PARAMETER customtemplate
+
+
+	.PARAMETER filename
+
+
+	.PARAMETER reboot
 
 	.EXAMPLE
-		Connect-RDPSession -ComputerName COMPUTERNAME
-		Starts an RDP session to COMPUTERNAME
+
 	
 	.OUTPUTS
-		System.String. Connect-RDPSession
+		System.String. 
 	
 	.NOTES
 		Author:     Luke Leigh
@@ -32,7 +38,6 @@ function Set-IISCrypto {
 		GitHubGist: https://gist.github.com/BanterBoy
 	
 	.INPUTS
-		ComputerName - You can pipe objects to this perameter.
 		backup - You can pipe objects to this perameter.
 		template - You can pipe objects to this perameter.
 		filename - You can pipe objects to this perameter.
@@ -47,6 +52,7 @@ function Set-IISCrypto {
 
 
 	[CmdletBinding()]
+
 	param (
 		[Parameter(Mandatory=$false,
 		Position=0,
@@ -67,7 +73,12 @@ function Set-IISCrypto {
 
 		[Parameter(Mandatory=$true,Position=3)]
 		[bool]
-		$reboot
+		$reboot,
+
+		[Parameter(Mandatory=$false,position=4)]
+		[string]
+		$customtemplate
+
 	)
 	
 	begin {
