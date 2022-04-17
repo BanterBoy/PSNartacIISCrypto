@@ -1,5 +1,4 @@
 #Requires -RunAsAdministrator
-#requires
 
 function Set-IISCrypto {
 
