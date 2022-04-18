@@ -7,22 +7,6 @@ function Set-IISCrypto {
 	.DESCRIPTION
 		Set-IISCrypto - Configure your server to use a strong cryptographic algorithm. This tool is a wrapper for the IISCryptoCli.exe tool which is a free tool that gives administrators the ability to enable or disable protocols, ciphers, hashes and key exchange algorithms on Windows Server 2008, 2012, 2016 and 2019. It also lets you reorder SSL/TLS cipher suites offered by IIS, change advanced settings, implement Best Practices and import custom templates. The GUI available on the Nartac Software site can be used to create a custom template that can be imported with this tool and can be installed using the Install-IISCrypto command.
 
-		IIS Crypto Help
-
-		The following are the switches for the command line version of IIS Crypto. All parameters are optional.
-
-		Switch		Option		Description
-		/backup		$filename	Specify a file to backup the current registry settings too. This is useful if you want to restore the settings later. Please enter a file path and the 							File extension .reg.
-
-		/template	
-
-		/custom		$filename	Specify the filename of a template to use.
-
-		/reboot					
-
-
-		EXAMPLE.
-
 	.PARAMETER backup
 		Specify this switch to backup the current registry settings.
 
