@@ -7,7 +7,7 @@ function Set-IISCrypto {
 		Set-IISCrypto
 	
 	.DESCRIPTION
-		Set-IISCrypto - Configure your server to use a strong cryptographic algorithm. This tool is a wrapper for the IISCryptoCli.exe tool which is a free tool that gives administrators the ability to enable or disable protocols, ciphers, hashes and key exchange algorithms on Windows Server 2008, 2012, 2016 and 2019. It also lets you reorder SSL/TLS cipher suites offered by IIS, change advanced settings, implement Best Practices and import custom templates. The GUI available on the Nartac Software site can be used to create a custom template that can be imported with this tool.
+		Set-IISCrypto - Configure your server to use a strong cryptographic algorithm. This tool is a wrapper for the IISCryptoCli.exe tool which is a free tool that gives administrators the ability to enable or disable protocols, ciphers, hashes and key exchange algorithms on Windows Server 2008, 2012, 2016 and 2019. It also lets you reorder SSL/TLS cipher suites offered by IIS, change advanced settings, implement Best Practices and import custom templates. The GUI available on the Nartac Software site can be used to create a custom template that can be imported with this tool and can be installed using the Install-IISCrypto command.
 
 	.PARAMETER backup
 
@@ -37,10 +37,10 @@ function Set-IISCrypto {
 		GitHubGist: https://gist.github.com/BanterBoy
 	
 	.INPUTS
-		backup - You can pipe objects to this perameter.
-		template - You can pipe objects to this perameter.
-		filename - You can pipe objects to this perameter.
-		reboot - You can pipe objects to this perameter.
+		backup - You can pipe objects to this parameter.
+		template - You can pipe objects to this parameter.
+		filename - You can pipe objects to this parameter.
+		reboot - You can pipe objects to this parameter.
 
 	.LINK
 		https://scripts.lukeleigh.com
@@ -85,7 +85,7 @@ function Set-IISCrypto {
 	}
 	
 	process {
-		FunctionName
+		
 	}
 	
 	end {
