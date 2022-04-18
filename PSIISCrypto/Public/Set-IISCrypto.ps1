@@ -76,7 +76,7 @@ function Set-IISCrypto {
 			ValueFromPipelineByPropertyName = $true,
 			ParameterSetName = ('Default'),
 			HelpMessage = "This switch can be enabled to provide a backup of the current registry key.")]
-		[bool]
+		[string]
 		$backup,
 
 		[Parameter(Mandatory = $false,
