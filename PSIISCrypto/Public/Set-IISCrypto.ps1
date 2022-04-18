@@ -14,47 +14,48 @@ function Set-IISCrypto {
 		Switch		Option		Description
 		/backup		$filename	Specify a file to backup the current registry settings too. This is useful if you want to restore the settings later. Please enter a file path and the 							File extension .reg.
 
-		/template	default		This template restores the server to the default settings.
-
-					best		This template sets your server to use the best practices for TLS. It aims to be compatible with as many browsers as possible while disabling weak
-								protocols and cipher suites.
-
-					pci32		This template is used to make your server PCI 3.2 compliant. It will disable TLS 1.0 and 1.1 which may break client connections to your website. Please
-								make sure that RDP will continue to function as Windows 2008 R2 requires an update. See our FAQ for more information.
-
-					strict		This template sets your server to use the strictest settings possible. It will disable TLS 1.0 and 1.1 and all non forward secrecy cipher suites which
-								may break client connections to your website. Please make sure that RDP will continue to function as Windows 2008 R2 requires an update. See our FAQ for more information.
-
-					fips140		This template makes your server FIPS 140-2 compliant. It is similar to the Best Practices template, however, it is not as secure as Best Practices
-								because some of the weaker cipher suites are enabled.
+		/template	
 
 		/custom		$filename	Specify the filename of a template to use.
 
-		/reboot					Reboot the server after a template is applied.
+		/reboot					
 
 
 		EXAMPLE.
+
+	.PARAMETER backup
+		Specify this switch to backup the current registry settings.
+
+	.PARAMETER template
+		There are several predevined templates that can be used. The following are the templates that are available.
+
+		default		This template restores the server to the default settings.
+
+		best		This template sets your server to use the best practices for TLS. It aims to be compatible with as many browsers as possible while disabling weak
+					protocols and cipher suites.
+
+		pci32		This template is used to make your server PCI 3.2 compliant. It will disable TLS 1.0 and 1.1 which may break client connections to your website. Please
+					make sure that RDP will continue to function as Windows 2008 R2 requires an update. See our FAQ for more information.
+
+		strict		This template sets your server to use the strictest settings possible. It will disable TLS 1.0 and 1.1 and all non forward secrecy cipher suites which
+					may break client connections to your website. Please make sure that RDP will continue to function as Windows 2008 R2 requires an update. See our FAQ for more information.
+
+		fips140		This template makes your server FIPS 140-2 compliant. It is similar to the Best Practices template, however, it is not as secure as Best Practices
+					because some of the weaker cipher suites are enabled.
+
+	.PARAMETER custom
+		This parameter allows you to specify a custom template to use. Please enter the filename and path of the template you wish to use.
+
+	.PARAMETER filename
+		The filename and path of registry settings to backup.
+
+	.PARAMETER reboot
+		This switch will reboot the server after the settings are applied.
+
+	.EXAMPLE
 		iiscryptocli /backup backup.reg /template "C:\temp\MyServers.ictpl" /reboot
 
 		Here is an example that backs up the registry to a file named backup.reg, applies a custom template named MyServers.ictpl and reboots the server.
-
-	.PARAMETER backup
-
-
-	.PARAMETER template
-
-
-	.PARAMETER custom
-
-
-	.PARAMETER filename
-
-
-	.PARAMETER reboot
-
-
-	.EXAMPLE
-
 	
 	.OUTPUTS
 		System.String. 
