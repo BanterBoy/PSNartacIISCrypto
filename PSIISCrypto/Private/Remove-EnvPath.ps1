@@ -1,4 +1,5 @@
 function Remove-EnvPath {
+    [CmdletBinding(DefaultParameterSetName = 'Default')]
     param(
         [Parameter(Mandatory=$true)]
         [string] $Path,
