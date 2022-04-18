@@ -9,28 +9,28 @@
 @{
 
     # Script module or binary module file associated with this manifest.
-    RootModule = 'PSIISCrypto.psm1'
+    RootModule        = 'PSIISCrypto.psm1'
     
     # Version number of this module.
-    ModuleVersion = '0.0.1'
+    ModuleVersion     = '0.0.1'
     
     # Supported PSEditions
     # CompatiblePSEditions = @()
     
     # ID used to uniquely identify this module
-    GUID = 'f968bb27-02b1-428a-ae7e-130242eeeb66'
+    GUID              = 'f968bb27-02b1-428a-ae7e-130242eeeb66'
     
     # Author of this module
-    Author = 'Luke Leigh'
+    Author            = 'Luke Leigh'
     
     # Company or vendor of this module
-    CompanyName = 'Unknown'
+    CompanyName       = 'Unknown'
     
     # Copyright statement for this module
-    Copyright = '(c) Luke Leigh. All rights reserved.'
+    Copyright         = '(c) Luke Leigh. All rights reserved.'
     
     # Description of the functionality provided by this module
-    Description          = 'The PSIISCrypto Module was created to enable administrators to configure IISCrypto using PowerShell.'
+    Description       = 'The PSIISCrypto Module was created to enable administrators to configure IISCrypto using PowerShell.'
     
     # Minimum version of the PowerShell engine required by this module
     # PowerShellVersion = ''
@@ -72,13 +72,13 @@
     FunctionsToExport = '*'
     
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport = '*'
+    CmdletsToExport   = '*'
     
     # Variables to export from this module
     VariablesToExport = '*'
     
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport = '*'
+    AliasesToExport   = '*'
     
     # DSC resources to export from this module
     # DscResourcesToExport = @()
@@ -90,12 +90,12 @@
     # FileList = @()
     
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-    PrivateData = @{
+    PrivateData       = @{
     
         PSData = @{
     
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags = 'Password','API','PasswordWolf','Create','Generate'
+            Tags       = 'IISCrypto','Nartac','PowerShell'
     
             # A URL to the license for this module.
             LicenseUri = 'https://github.com/BanterBoy/PSNartacIISCrypto/blob/production/LICENSE'
@@ -123,10 +123,10 @@
     } # End of PrivateData hashtable
     
     # HelpInfo URI of this module
-    HelpInfoURI = 'https://github.com/BanterBoy/PSNartacIISCrypto/wiki'
+    HelpInfoURI       = 'https://github.com/BanterBoy/PSNartacIISCrypto/wiki'
     
     # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
     # DefaultCommandPrefix = ''
     
-    }
+}
     
