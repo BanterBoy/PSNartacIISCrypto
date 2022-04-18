@@ -1,4 +1,7 @@
 function Update-IISCrypto {
+    [CmdletBinding(DefaultParameterSetName = 'Default')]
+
+    
     $EnvPath = Get-EnvPath -Container Machine | Where-Object -FilterScript { $_ -Like '*IISCrypto*' }
     if (!$EnvPath) {
         Write-Output "IISCrypto not found"
