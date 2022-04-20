@@ -1,13 +1,13 @@
-# load (dot-source) *.ps1 files, excluding unit-test scripts (*.Tests.*), and disabled scripts (__*)
-
-@("$PSScriptRoot\Public\*.ps1", "$PSScriptRoot\Private\*.ps1") | Get-ChildItem |  Where-Object { $_.Name -like '*.ps1' -and $_.Name -notlike '__*' -and $_.Name -notlike '*.Tests*' } |
-ForEach-Object {
-	# dot-source script
-	# Write-Host "Loading $($_.BaseName)"
-	. $_
-
-	# export functions in the `Public` folder
-	if ( (Split-Path($_.Directory) -Leaf) -Eq 'Public') {
-		Export-ModuleMember $_.BaseName
-	}
+$script:storageLocations = Get-Content -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Private/storageLocations.json') -Raw | ConvertFrom-Json
+# Dot source public/private functions
+$public =  @(Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Public/*.ps1') -Recurse -ErrorAction Stop)
+$private = @(Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Private/*.ps1') -Recurse -ErrorAction Stop)
+foreach ($import in @($public + $private)) {
+    try {
+        . $import.FullName
+    }
+    catch {
+        throw "Unable to dot source [$($import.FullName)]"
+    }
 }
+Export-ModuleMember -Function $public.BaseName
