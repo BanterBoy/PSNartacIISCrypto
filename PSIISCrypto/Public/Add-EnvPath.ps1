@@ -1,17 +1,16 @@
 function Add-EnvPath {
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory = $true)]
         [string] $Path,
 
         [ValidateSet('Machine', 'User', 'Session')]
         [string] $Container = 'Session'
     )
-
     if ($Container -ne 'Session') {
         $containerMapping = @{
             Machine = [EnvironmentVariableTarget]::Machine
-            User = [EnvironmentVariableTarget]::User
+            User    = [EnvironmentVariableTarget]::User
         }
         $containerType = $containerMapping[$Container]
 
@@ -21,7 +20,6 @@ function Add-EnvPath {
             [Environment]::SetEnvironmentVariable('Path', $persistedPaths -join ';', $containerType)
         }
     }
-
     $envPaths = $env:Path -split ';'
     if ($envPaths -notcontains $Path) {
         $envPaths = $envPaths + $Path | Where-Object { $_ }
