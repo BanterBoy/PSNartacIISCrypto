@@ -5,14 +5,12 @@ function Get-EnvPath {
         [ValidateSet('Machine', 'User', 'Process')]
         [string] $Container
     )
-
     $containerMapping = @{
         Machine = [EnvironmentVariableTarget]::Machine
         User    = [EnvironmentVariableTarget]::User
         Process = [EnvironmentVariableTarget]::Process
     }
     $containerType = $containerMapping[$Container]
-
     [Environment]::GetEnvironmentVariable('Path', $containerType) -split ';' |
     Where-Object { $_ }
 }
