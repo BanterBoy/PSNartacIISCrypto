@@ -78,7 +78,6 @@ function Set-IISCrypto {
 			HelpMessage = "This switch can be enabled to provide a backup of the current registry key.")]
 		[string]
 		$backup,
-
 		[Parameter(Mandatory = $false,
 			Position = 0,
 			ValueFromPipeline = $true,
@@ -88,7 +87,6 @@ function Set-IISCrypto {
 		[ValidateSet ('best', 'pci32', 'strict', 'fips140', 'default')]
 		[string]
 		$template,
-
 		[Parameter(Mandatory = $false,
 			Position = 1,
 			ValueFromPipeline = $true,
@@ -97,7 +95,6 @@ function Set-IISCrypto {
 			HelpMessage = "Please enter a filename.")]
 		[string]
 		$filename,
-
 		[Parameter(Mandatory = $false,
 			Position = 2,
 			ValueFromPipeline = $true,
@@ -106,7 +103,6 @@ function Set-IISCrypto {
 			HelpMessage = "This switch can be enabled to reboot the computer after the template has been applied.")]
 		[bool]
 		$reboot,
-
 		[Parameter(Mandatory = $false,
 			position = 0,
 			ValueFromPipeline = $true,
@@ -116,11 +112,9 @@ function Set-IISCrypto {
 		[string]
 		$templateFile
 	)
-	
 	begin {
 		
 	}
-	
 	process {
 		if ($custom) {
 			$EnvPath = Get-EnvPath -Container Machine | Where-Object -FilterScript { $_ -Like '*IISCrypto*' }
@@ -163,7 +157,6 @@ function Set-IISCrypto {
 						}	
 					}
 				}
-				
 				pci32 {
 					$EnvPath = Get-EnvPath -Container Machine | Where-Object -FilterScript { $_ -Like '*IISCrypto*' }
 					if ($reboot) {
@@ -177,7 +170,6 @@ function Set-IISCrypto {
 						}	
 					}
 				}
-				
 				strict {
 					$EnvPath = Get-EnvPath -Container Machine | Where-Object -FilterScript { $_ -Like '*IISCrypto*' }
 					if ($reboot) {
@@ -191,7 +183,6 @@ function Set-IISCrypto {
 						}	
 					}
 				}
-				
 				fips140 {
 					$EnvPath = Get-EnvPath -Container Machine | Where-Object -FilterScript { $_ -Like '*IISCrypto*' }
 					if ($reboot) {
@@ -205,7 +196,6 @@ function Set-IISCrypto {
 						}	
 					}
 				}
-				
 				default {
 					$EnvPath = Get-EnvPath -Container Machine | Where-Object -FilterScript { $_ -Like '*IISCrypto*' }
 					if ($reboot) {
@@ -222,7 +212,6 @@ function Set-IISCrypto {
 			}
 		}
 	}
-	
 	end {
 		
 	}
