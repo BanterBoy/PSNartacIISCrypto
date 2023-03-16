@@ -1,13 +1,24 @@
-$script:storageLocations = Get-Content -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Private/storageLocations.json') -Raw | ConvertFrom-Json
-# Dot source public/private functions
-$public =  @(Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Public/*.ps1') -Recurse -ErrorAction Stop)
-$private = @(Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath 'Private/*.ps1') -Recurse -ErrorAction Stop)
-foreach ($import in @($public + $private)) {
-    try {
-        . $import.FullName
+#Get public and private function definition files.
+$Public = @( Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue -Recurse )
+$Private = @( Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue -Recurse )
+
+$FoundErrors = @(
+    #Dot source the files
+    Foreach ($Import in @($Private + $Public)) {
+        Try {
+            . $Import.Fullname
+        }
+        Catch {
+            Write-Error -Message "Failed to import functions from $($import.Fullname): $_"
+            $true
+        }
     }
-    catch {
-        throw "Unable to dot source [$($import.FullName)]"
-    }
+)
+
+if ($FoundErrors.Count -gt 0) {
+    $ModuleName = (Get-ChildItem $PSScriptRoot\*.psd1).BaseName
+    Write-Warning "Importing module $ModuleName failed. Fix errors before continuing."
+    break
 }
-Export-ModuleMember -Function $public.BaseName
+
+Export-ModuleMember -Function '*' -Alias '*'
