@@ -23,12 +23,12 @@ To make the import persistent, copy the `PSIISCrypto` folder into a path on `$en
 
 Four public cmdlets are exported:
 
-| Cmdlet                | Purpose                                                                                          |
-| --------------------- | ------------------------------------------------------------------------------------------------ |
-| `Install-IISCrypto`   | Download (CLI + optional GUI) and install IIS Crypto, register on Machine PATH. Alias: `IISC`.   |
-| `Set-IISCrypto`       | Apply a template, take a backup, view current settings, and/or reboot — in a single CLI call.    |
-| `Update-IISCrypto`    | Refresh installed binaries when Nartac publishes a newer version.                                |
-| `Uninstall-IISCrypto` | Remove the install directory and PATH entry. `ConfirmImpact = High`.                             |
+| Cmdlet                | Purpose                                                                                        |
+| --------------------- | ---------------------------------------------------------------------------------------------- |
+| `Install-IISCrypto`   | Download (CLI + optional GUI) and install IIS Crypto, register on Machine PATH. Alias: `IISC`. |
+| `Set-IISCrypto`       | Apply a template, take a backup, view current settings, and/or reboot — in a single CLI call.  |
+| `Update-IISCrypto`    | Refresh installed binaries when Nartac publishes a newer version.                              |
+| `Uninstall-IISCrypto` | Remove the install directory and PATH entry. `ConfirmImpact = High`.                           |
 
 ## Usage
 
