@@ -9,31 +9,31 @@
 @{
 
     # Script module or binary module file associated with this manifest.
-    RootModule        = 'PSIISCrypto.psm1'
+    RootModule           = 'PSIISCrypto.psm1'
     
     # Version number of this module.
-    ModuleVersion     = '0.1.0'
+    ModuleVersion        = '0.2.0'
     
     # Supported PSEditions
-    # CompatiblePSEditions = @()
+    CompatiblePSEditions = @('Desktop')
     
     # ID used to uniquely identify this module
-    GUID              = 'f968bb27-02b1-428a-ae7e-130242eeeb66'
+    GUID                 = 'f968bb27-02b1-428a-ae7e-130242eeeb66'
     
     # Author of this module
-    Author            = 'Luke Leigh'
+    Author               = 'Luke Leigh'
     
     # Company or vendor of this module
-    CompanyName       = 'Unknown'
+    CompanyName          = 'Unknown'
     
     # Copyright statement for this module
-    Copyright         = '(c) Luke Leigh. All rights reserved.'
+    Copyright            = '(c) Luke Leigh. All rights reserved.'
     
     # Description of the functionality provided by this module
-    Description       = 'The PSIISCrypto Module was created to enable administrators to install and configure IISCrypto using PowerShell. The functions available allow you to download the latest version of IISCrypto from the Nartac website and also to install IISCrypto and update to the latest version of the software. The tooling also enables you to run IISCrypto and deploy the security settings using the templates provided - best, pci32, strict, fips140'
+    Description          = 'The PSIISCrypto Module was created to enable administrators to install and configure IISCrypto using PowerShell. The functions available allow you to download the latest version of IISCrypto from the Nartac website and also to install IISCrypto and update to the latest version of the software. The tooling also enables you to run IISCrypto and deploy the security settings using the templates provided - best, pci32, strict, fips140'
     
     # Minimum version of the PowerShell engine required by this module
-    # PowerShellVersion = ''
+    PowerShellVersion    = '5.1'
     
     # Name of the PowerShell host required by this module
     # PowerShellHostName = ''
@@ -69,16 +69,16 @@
     # NestedModules = @()
     
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = '*'
+    FunctionsToExport    = @('Install-IISCrypto', 'Set-IISCrypto', 'Update-IISCrypto', 'Uninstall-IISCrypto')
     
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport   = '*'
+    CmdletsToExport      = @()
     
     # Variables to export from this module
-    VariablesToExport = '*'
+    VariablesToExport    = @()
     
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport   = '*'
+    AliasesToExport      = @('IISC')
     
     # DSC resources to export from this module
     # DscResourcesToExport = @()
@@ -90,7 +90,7 @@
     # FileList = @()
     
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-    PrivateData       = @{
+    PrivateData          = @{
     
         PSData = @{
     
@@ -106,8 +106,17 @@
             # A URL to an icon representing this module.
             # IconUri = ''
     
-            # ReleaseNotes of this module
-            ReleaseNotes = 'Initial Release, limited testing.'
+            ReleaseNotes = @'
+0.2.0 - Phase A correctness fixes and module hardening.
+  * F2: Fixed Install-IISCrypto -Test ordering and added CustomPath validation.
+  * F4: Corrected Set-IISCrypto template mapping (pci32 vs pci40) to match vendor docs.
+  * F5: Set-IISCrypto custom-template branch now uses the correct /template switch.
+  * F6: Update-IISCrypto no longer assumes the GUI binary exists and logs accurate FileVersion after copy.
+  * F7: Moved Uninstall-IISCrypto into the module as an exported cmdlet.
+  * F8: Fixed Uninstall-IISCrypto Split path-corruption bug (string overload).
+  * F11: Removed colliding IISC alias on Set-IISCrypto; alias now resolves to Install-IISCrypto only.
+  * Manifest: explicit FunctionsToExport / CmdletsToExport / VariablesToExport / AliasesToExport, PowerShellVersion 5.1, CompatiblePSEditions Desktop.
+'@
     
             # Prerelease string of this module
             # Prerelease = ''
@@ -123,7 +132,7 @@
     } # End of PrivateData hashtable
     
     # HelpInfo URI of this module
-    HelpInfoURI       = 'https://github.com/BanterBoy/PSNartacIISCrypto/wiki'
+    HelpInfoURI          = 'https://github.com/BanterBoy/PSNartacIISCrypto/wiki'
     
     # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
     # DefaultCommandPrefix = ''

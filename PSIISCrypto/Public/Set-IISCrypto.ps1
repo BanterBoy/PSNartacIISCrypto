@@ -1,5 +1,5 @@
 function Set-IISCrypto {
-	<#
+    <#
     .SYNOPSIS
         Configure your server to use a strong cryptographic algorithm. This tool is a wrapper for the IISCryptoCli.exe tool.
     
@@ -19,15 +19,24 @@ function Set-IISCrypto {
         - fips140: Makes your server FIPS 140-2 compliant, similar to the Best Practices template but not as secure as Best Practices because some weaker cipher suites are enabled.
 
     .PARAMETER custom
-        Specify a custom template to use. Provide the filename and path of the custom template.
+        Specify a custom template file (.ictpl) to apply. Provide the filename and path of the custom template. The vendor CLI applies custom templates via the /template <filename> switch; this parameter is mutually exclusive with -template.
 
     .PARAMETER reboot
         Reboot the server after the settings are applied.
+
+    .PARAMETER View
+        Display the current cryptographic configuration by invoking IISCryptoCli.exe /view.
+        Cannot be combined with -backup, -template, -custom, or -reboot.
 
     .EXAMPLE
         Set-IISCrypto -backup "C:\backup\backup.reg" -template best -reboot
 
         This example backs up the registry to a file named backup.reg, applies the best practices template, and reboots the server.
+
+    .EXAMPLE
+        Set-IISCrypto -View
+
+        Displays the current IIS Crypto configuration (equivalent to IISCryptoCli.exe /view).
     
     .EXAMPLE
         Set-IISCrypto -custom "C:\templates\MyCustomTemplate.ictpl" -reboot
@@ -59,52 +68,89 @@ function Set-IISCrypto {
         https://scripts.lukeleigh.com
     #>
 
-	[CmdletBinding(DefaultParameterSetName = 'Default', SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
-	[alias("IISC")]
-	param (
-		[Parameter(Mandatory = $false, Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, HelpMessage = "Specify a file to backup the registry to.")]
-		[string]
-		$backup,
+    [CmdletBinding(DefaultParameterSetName = 'Default', SupportsShouldProcess = $true, ConfirmImpact = 'Medium')]
+    param (
+        [Parameter(Mandatory = $false, Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, HelpMessage = "Specify a file to backup the registry to.")]
+        [string]
+        $backup,
 
-		[Parameter(Mandatory = $false, Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, HelpMessage = "Select a preconfigured template.")]
-		[ValidateSet('best', 'pci40', 'strict', 'fips140', 'default')]
-		[string]
-		$template,
+        [Parameter(Mandatory = $false, Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, HelpMessage = "Select a preconfigured template.")]
+        [ValidateSet('best', 'pci40', 'strict', 'fips140', 'default')]
+        [string]
+        $template,
 
-		[Parameter(Mandatory = $false, Position = 2, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, HelpMessage = "Specify the file path and filename of the custom template.")]
-		[string]
-		$custom,
+        [Parameter(Mandatory = $false, Position = 2, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, HelpMessage = "Specify the file path and filename of the custom template.")]
+        [string]
+        $custom,
 
-		[Parameter(Mandatory = $false, Position = 3, HelpMessage = "Reboot the computer after the template has been applied.")]
-		[switch]
-		$reboot
-	)
+        [Parameter(Mandatory = $false, Position = 3, HelpMessage = "Reboot the computer after the template has been applied.")]
+        [switch]
+        $reboot,
 
-	process {
-		$EnvPath = Get-EnvPath -Container Machine | Where-Object -FilterScript { $_ -Like '*IISCrypto*' }
+        [Parameter(Mandatory = $false, HelpMessage = "Display the current IIS Crypto configuration via IISCryptoCli.exe /view.")]
+        [switch]
+        $View
+    )
 
-		if ($backup) {
-			if ($PSCmdlet.ShouldProcess("Backup", "Backing up registry to $backup")) {
-				& "$EnvPath\IISCryptoCli.exe" /backup $backup
-			}
-		}
+    process {
+        if ($View.IsPresent) {
+            if ($backup -or $template -or $custom -or $reboot.IsPresent) {
+                Write-Error -Category InvalidArgument -Message '-View cannot be combined with -backup, -template, -custom, or -reboot.' -ErrorAction Stop
+            }
+        }
 
-		if ($template) {
-			if ($PSCmdlet.ShouldProcess("Template", "Applying template $template")) {
-				& "$EnvPath\IISCryptoCli.exe" /template $template
-			}
-		}
+        if ($template -and $custom) {
+            Write-Error -Category InvalidArgument -Message 'Specify either -template or -custom, not both.' -ErrorAction Stop
+        }
 
-		if ($custom) {
-			if ($PSCmdlet.ShouldProcess("Custom Template", "Applying custom template $custom")) {
-				& "$EnvPath\IISCryptoCli.exe" /template $custom
-			}
-		}
+        if (-not ($backup -or $template -or $custom -or $reboot.IsPresent -or $View.IsPresent)) {
+            Write-Verbose 'No actions specified (-backup, -template, -custom, -reboot, -View); nothing to do.'
+            return
+        }
 
-		if ($reboot.IsPresent) {
-			if ($PSCmdlet.ShouldProcess("Reboot", "Rebooting the computer")) {
-				& "$EnvPath\IISCryptoCli.exe" /reboot
-			}
-		}
-	}
+        $EnvPath = Get-EnvPath -Container Machine | Where-Object -FilterScript { $_ -Like '*IISCrypto*' }
+        if ([string]::IsNullOrEmpty($EnvPath)) {
+            Write-Error 'IISCrypto install directory not found in Machine PATH. Run Install-IISCrypto first.' -ErrorAction Stop
+        }
+
+        if ($View.IsPresent) {
+            $target = "$EnvPath\IISCryptoCli.exe"
+            if ($PSCmdlet.ShouldProcess($target, 'Invoke IISCryptoCli: /view')) {
+                & "$EnvPath\IISCryptoCli.exe" '/view' | Write-Output
+            }
+            return
+        }
+
+        $cliArgs = [System.Collections.Generic.List[string]]::new()
+        $actions = [System.Collections.Generic.List[string]]::new()
+
+        if ($backup) {
+            $cliArgs.Add('/backup')
+            $cliArgs.Add($backup)
+            $actions.Add("backup -> $backup")
+        }
+
+        if ($template) {
+            $cliArgs.Add('/template')
+            $cliArgs.Add($template)
+            $actions.Add("template -> $template")
+        }
+
+        if ($custom) {
+            $cliArgs.Add('/template')
+            $cliArgs.Add($custom)
+            $actions.Add("custom template -> $custom")
+        }
+
+        if ($reboot.IsPresent) {
+            $cliArgs.Add('/reboot')
+            $actions.Add('reboot')
+        }
+
+        $target = "$EnvPath\IISCryptoCli.exe"
+        $action = "Invoke IISCryptoCli: $($actions -join '; ')"
+        if ($PSCmdlet.ShouldProcess($target, $action)) {
+            & "$EnvPath\IISCryptoCli.exe" @cliArgs
+        }
+    }
 }

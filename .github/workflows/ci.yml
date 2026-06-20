@@ -1,0 +1,19 @@
+name: CI
+on:
+    push:
+        branches: [production]
+    pull_request:
+        branches: [production]
+jobs:
+    test:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Install dependencies
+              shell: pwsh
+              run: |
+                  Install-Module Pester -MinimumVersion 5.0 -Force -Scope CurrentUser -SkipPublisherCheck
+                  Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+            - name: Build + Analyze + Test
+              shell: pwsh
+              run: .\build.ps1 -Task All
